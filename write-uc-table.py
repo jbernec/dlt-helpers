@@ -22,32 +22,12 @@ from pyspark.sql.streaming import StreamingQueryListener
 from pyspark.sql.session import SparkSession
 from pyspark.sql.types import TimestampType
 from pyspark.sql import DataFrame
-# import azure.identity
-# from azure.identity import DefaultAzureCredential, EnvironmentCredential, ManagedIdentityCredential, SharedTokenCacheCredential
-# from azure.identity import ClientSecretCredential
-# from azure.monitor.ingestion import LogsIngestionClient
 from azure.core.exceptions import HttpResponseError
-# from opentelemetry._logs import (
-#     get_logger_provider,
-#     set_logger_provider,
-# )
-# from opentelemetry.sdk._logs import (
-#     LoggerProvider,
-#     LoggingHandler,
-# )
-# from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
-# from azure.monitor.opentelemetry.exporter import AzureMonitorLogExporter
 
 # COMMAND ----------
 
-# set_logger_provider(LoggerProvider())
-# exporter = AzureMonitorLogExporter.from_connection_string(
-#     dbutils.secrets.get("myscope", key="appinsightsconnstr")
-# )
-# get_logger_provider().add_log_record_processor(BatchLogRecordProcessor(exporter))
+# Set logger
 
-# Attach LoggingHandler to namespaced logger
-# handler = LoggingHandler()
 logger = logging.getLogger(__name__)
 # logger.addHandler(handler)
 logger.setLevel(logging.INFO)
@@ -56,12 +36,13 @@ logger.setLevel(logging.INFO)
 
 # Create a catalog, schema and table within the catalog and specify the location
 
-#spark.sql('SHOW CATALOGS').display()
-# spark.sql(
-#     """
-#     create catalog if not exists ado_lab_catalog MANAGED LOCATION 'abfss://unity-catalog@adls04.dfs.core.windows.net/adocatalog/'
-#           """
-# ).display()
+spark.sql('SHOW CATALOGS').display()
+
+spark.sql(
+    """
+    create catalog if not exists ado_lab_catalog MANAGED LOCATION 'abfss://unity-catalog@adls04.dfs.core.windows.net/adocatalog/'
+          """
+).display()
 
 spark.sql(
     """
@@ -76,11 +57,17 @@ spark.sql(
 
 # COMMAND ----------
 
+
+
+# COMMAND ----------
+
 catalog_name = "ado_lab_catalog"
 schema_name = "ado_schema"
 table_name = "nyctaxi_data"
 checkpoint_path = "abfss://unity-catalog@adls04.dfs.core.windows.net/adocatalog/_checkpoint"
 schema_location = "abfss://unity-catalog@adls04.dfs.core.windows.net/adocatalog/_schematracking"
+
+spark.sql(f"use catalog {catalog_name}")
 
 options = {
     "cloudFiles.format": "json",
