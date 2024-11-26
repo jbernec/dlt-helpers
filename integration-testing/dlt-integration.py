@@ -29,7 +29,7 @@ df.display()
 
 # COMMAND ----------
 
-from helper_functions import get_rules_as_list_of_dict
+from helper_functions import get_rules_as_list_of_dict, append_at_symbol
 from pyspark.sql.functions import expr, col
 
 df_rules = spark.createDataFrame(get_rules_as_list_of_dict())
@@ -57,10 +57,11 @@ get_rules("character_validity")
 
 # COMMAND ----------
 
-from pyspark.sql.functions import concat, lit, col
+#from pyspark.sql.functions import concat, lit, col
 
 # Insert "@" at the end of the website column
-df_concat = df.withColumn("website", concat(col("website"), lit("@")))
+
+df_concat = append_at_symbol(df=df, column_name="website")
 
 # Display the updated DataFrame
 display(df_concat)
@@ -72,3 +73,9 @@ df_concat.write.format("parquet").mode("overwrite").save("/tmp/delta/concat")
 # COMMAND ----------
 
 spark.read.format("parquet").load("/tmp/delta/concat").display()
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC
+# MAGIC DELETE FROM dlt_catalog.dlt_schema.raw_farmers_market;
