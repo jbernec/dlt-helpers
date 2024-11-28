@@ -17,5 +17,5 @@
 dlt-ingestion-pipeline.ipynb
 dlt-uc-config.ipynb
 dlt-sample-helpers.ipynb
-!integration-testing/query_expectations_events.ipynb
 !integration-testing/generate_data.ipynb
+integration-testing/query_expectations_events.ipynb
