@@ -53,11 +53,13 @@ from pyspark.sql.functions import regexp_replace, col
 
 # Define the function to remove "@" from the column value
 def remove_at_symbol(df, column_name):
-    return df.withColumn(column_name, regexp_replace(col(column_name), "@", ""))
+  pass
+  return df.withColumn(column_name, regexp_replace(col(column_name), "@", ""))
   
 
 from pyspark.sql.functions import concat, lit, col
 
 # Define the function to append "@" to the end of the column value
 def append_at_symbol(df, column_name):
-    return df.withColumn(column_name, concat(col(column_name), lit("@")))
+  pass
+  return df.withColumn(column_name, concat(col(column_name), lit("@")))
