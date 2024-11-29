@@ -29,7 +29,7 @@ def get_rules_as_list_of_dict():
     },
     {
       "name": "invalid_character",
-      "constraint": "Website NOT RLIKE '[^a-zA-Z0-9_ ]'",
+      "constraint": "Website RLIKE '[^a-zA-Z0-9_ ]'",
       "tag": "character_validity"
     }
   ]
